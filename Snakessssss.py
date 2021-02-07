@@ -1,3 +1,6 @@
+# Welcome to snake! You can move the snake by using the arrows 
+
+
 import pygame as pg
 from pygame import (
     Surface,
@@ -17,7 +20,7 @@ class Snake:
         self.surf = Surface((Snake.LENGTH, Snake.LENGTH))
         self.surf.fill(Snake.COLOUR)
         self.rect = self.surf.get_rect(center=(x, y))
-        self.move = 0
+        self.move = 0  # Direction
 
     def moving(self, speed=5):
         if self.move == K_UP:
@@ -53,27 +56,27 @@ class Game:
     def __init__(self):
         self.sc = pg.display.set_mode((Game.W, Game.W))
         self.apple = Apple(10, Game.W - 10)
-        self.main = Snake(Game.W // 2, Game.W // 2)
-        self.obj_list = [self.main]
+        self.main = Snake(Game.W // 2, Game.W // 2)  # Head 
+        self.obj_list = [self.main]  # Snake's body (consists of Snake's objects)
         self.clock = pg.time.Clock()
         self.state = True
 
     def get_event(self, object):
-        LIMIT = ([K_UP, K_DOWN], [K_LEFT, K_RIGHT])
-        for event in pg.event.get():
+        LIMIT = ([K_UP, K_DOWN], [K_LEFT, K_RIGHT])  # For ex.: you cannot use arrow down after the arrow up
+        for event in pg.event.get(): 
             if event.type == KEYDOWN:
                 for collab in LIMIT:
                     if object.move in collab and event.key in collab:
                         return None
-                object.move = event.key
+                object.move = event.key 
             elif event.type == pg.QUIT:
                 self.state = False
 
     def increase_snake(self, snake):
-        if snake[-1].move == K_UP:
+        if snake[-1].move == K_UP:  # The new "block" appears behind the last one 
             new = Snake(snake[-1].rect.centerx,
                         snake[-1].rect.centery + Snake.LENGTH)
-            new.move = snake[-1].move
+            new.move = snake[-1].move  # And takes the same direction
             snake.append(new)
         elif snake[-1].move == K_LEFT:
             new = Snake(snake[-1].rect.centerx + Snake.LENGTH,
@@ -91,13 +94,13 @@ class Game:
             new.move = snake[-1].move
             snake.append(new)
 
-    def follow_main(self, snake):
-        for s in range(1, len(snake)):
-            if snake[s - 1].move in (K_UP, K_DOWN):
-                if snake[s].rect.centerx == snake[s - 1].rect.centerx:
-                    snake[s].move = snake[s - 1].move
-            elif snake[s - 1].move in (K_LEFT, K_RIGHT):
-                if snake[s].rect.centery == snake[s - 1].rect.centery:
+    def follow_main(self, snake):  # Every iterable the block keeps its direction
+        for s in range(1, len(snake)):  
+            if snake[s - 1].move in (K_UP, K_DOWN):  # If the direction was changed by height 
+                if snake[s].rect.centerx == snake[s - 1].rect.centerx:  # We define by width 
+                    snake[s].move = snake[s - 1].move  
+            elif snake[s - 1].move in (K_LEFT, K_RIGHT):  # If changed by width
+                if snake[s].rect.centery == snake[s - 1].rect.centery:  # Define by height
                     snake[s].move = snake[s - 1].move
 
     @classmethod
