@@ -1,7 +1,7 @@
 # First pygame project
 ### Let's begin!
 **You can download pygame [here](http://www.pygame.org/download.shtml)** \
-**The code you can download as zip** \ 
+**The code you can download as zip** 
 ### The notes
 - The snake is the list of Snake class's objects 
 - The direction changes according to main Snake class's object 
