@@ -1,1 +1,1 @@
-# pygame
+# First pygame project
